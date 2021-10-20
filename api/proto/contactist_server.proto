@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "/proto";
+
+import "google/protobuf/empty.proto";
+
+service contacList {
+    rpc Create(ContactRequest) returns (ContactResponse) {};
+    rpc Add(ContactRequest) returns (ContactResponse) {};
+    rpc Update(ContactRequest) returns (ContactResponse) {};
+    rpc Delete(ContactRequest) returns (ContactResponse) {};
+    rpc Get(ContactRequestID) returns (ContactResponse) {};
+    rpc GetAll(google.protobuf.Empty) returns (ContactResponseSlice) {};
+}
+// Creating struct Contact
+message Contact{
+    int32 Id = 1;
+    string FirstName = 2;
+    string LastName = 3;
+    string Phone = 4;
+    string Email = 5;
+}
+// Id request for Get function
+message ContactRequestID{
+    int32 Id = 1;
+}
+
+message ContactRequest{
+    Contact c = 1;
+}
+
+// Response structs
+message ContactResponse{
+    Contact c = 1;
+}
+message ContactResponseSlice{
+    repeated Contact c = 1;
+}
