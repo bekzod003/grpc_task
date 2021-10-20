@@ -10,6 +10,9 @@ import (
 )
 
 func main() {
+	// both servers running on the same time
+	go contServ()
+	taskServer()
 }
 
 func contServ() {
