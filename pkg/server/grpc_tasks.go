@@ -50,7 +50,7 @@ func (grpc GRPCTasksSrever) Delete(c context.Context, tr *proto.TaskRequest) (*p
 }
 
 func (grpc GRPCTasksSrever) Get(c context.Context, trid *proto.TaskRequestID) (*proto.TaskResponse, error) {
-	row := tDb.QueryRow(`select * from tasks where id = $1`, trid.GetId())
+	row := tDb.QueryRow(`select * from tasks where id = $1;`, trid.GetId())
 
 	var result proto.Task
 
@@ -61,7 +61,7 @@ func (grpc GRPCTasksSrever) Get(c context.Context, trid *proto.TaskRequestID) (*
 }
 
 func (grpc GRPCTasksSrever) GetAll(c context.Context, emp *emptypb.Empty) (*proto.TaskResponseSlice, error) {
-	rows, err := tDb.Query(`select * from tasks`)
+	rows, err := tDb.Query(`select * from tasks;`)
 
 	var result = make([]*proto.Task, 0)
 	for rows.Next() {

@@ -19,14 +19,14 @@ type GRPCContactSrever struct {
 
 // Create and add are THE SAME
 func (grpc GRPCContactSrever) Create(c context.Context, cr *proto.ContactRequest) (*proto.ContactResponse, error) {
-	_, err := cDb.Exec(`insert into contacts (first_name, last_name, phone, email,)
+	_, err := cDb.Exec(`insert into contacts (first_name, last_name, phone, email)
 	values ( $1, $2, $3, $4);`, cr.C.GetFirstName(), cr.C.GetLastName(), cr.C.GetPhone(), cr.C.GetEmail())
 
 	return &proto.ContactResponse{C: cr.C}, err
 }
 
 func (grpc GRPCContactSrever) Add(c context.Context, cr *proto.ContactRequest) (*proto.ContactResponse, error) {
-	_, err := cDb.Exec(`insert into contacts (first_name, last_name, phone, email,)
+	_, err := cDb.Exec(`insert into contacts (first_name, last_name, phone, email)
 	values ( $1, $2, $3, $4);`, cr.C.GetFirstName(), cr.C.GetLastName(), cr.C.GetPhone(), cr.C.GetEmail())
 
 	return &proto.ContactResponse{C: cr.C}, err
@@ -62,7 +62,7 @@ func (grpc GRPCContactSrever) GetAll(c context.Context, emp *emptypb.Empty) (*pr
 
 	for rows.Next() {
 		var tempCont proto.Contact
-		rows.Scan(&tempCont.Id, tempCont.FirstName, tempCont.LastName, &tempCont.Phone, &tempCont.Email)
+		rows.Scan(&tempCont.Id, &tempCont.FirstName, &tempCont.LastName, &tempCont.Phone, &tempCont.Email)
 		conts = append(conts, &tempCont)
 	}
 	return &proto.ContactResponseSlice{C: conts}, err
